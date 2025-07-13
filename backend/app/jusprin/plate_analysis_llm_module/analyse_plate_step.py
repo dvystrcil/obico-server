@@ -65,7 +65,7 @@ def analyse_plate_step(chat, openai_client):
     })
 
     response = instructor_client.chat.completions.create(
-        model=os.getenv('JUSPRIN_LLM_MODEL', 'gpt-4o'),
+        model=os.getenv('AI_LLM_MODEL', 'gpt-4o'),
         messages=messages,
         response_model=PlateAnalysisResponseModel,
     )

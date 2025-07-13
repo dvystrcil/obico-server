@@ -117,7 +117,7 @@ def summarize_chat_history(chat, openai_client):
     messages = [{'role': 'system', 'content': system_prompt}]
 
     response = openai_client.chat.completions.create(
-        model=os.getenv('JUSPRIN_LLM_MODEL', 'gpt-4o'),  
+        model=os.getenv('AI_LLM_MODEL', 'gpt-4o'),  
         messages=messages,
         temperature=0.0,
     )
@@ -233,7 +233,7 @@ def query_intent_checking_step(chat, openai_client):
     messages.extend(chat_history)
 
     response = openai_client.chat.completions.create(
-        model=os.getenv('JUSPRIN_LLM_MODEL', 'gpt-4o'),  
+        model=os.getenv('AI_LLM_MODEL', 'gpt-4o'),  
         messages=messages,
         functions=tools,
         function_call="auto",

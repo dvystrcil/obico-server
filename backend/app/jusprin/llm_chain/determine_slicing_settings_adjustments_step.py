@@ -571,7 +571,7 @@ def determine_slicing_settings_adjustments_step(chat, print_process_preset_name,
     messages.extend(chat_history)
 
     response = instructor_client.chat.completions.create(
-        model=os.getenv('JUSPRIN_LLM_MODEL', 'gpt-4o'),
+        model=os.getenv('AI_LLM_MODEL', 'gpt-4o'),
         messages=messages,
         response_model=SlicingResponse
     )
@@ -636,7 +636,7 @@ def combine_explanations(chat, prev_preset_name, preset_name, preset_explanation
     messages.extend(chat_history)
 
     response = openai_client.chat.completions.create(
-        model=os.getenv('JUSPRIN_LLM_MODEL', 'gpt-4o'),
+        model=os.getenv('AI_LLM_MODEL', 'gpt-4o'),
         messages=messages,
         temperature=0.0,
     )
