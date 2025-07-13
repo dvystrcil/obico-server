@@ -30,8 +30,10 @@ class JusPrinPlateAnalysisViewSet(viewsets.ModelViewSet):
 
     @observe(capture_input=False, capture_output=True)
     def create(self, request):
-        api_key = os.environ.get('OPENAI_API_KEY')
-        openai_client = OpenAI(api_key=api_key)
+        openai_client = OpenAI(
+            api_key=aos.environ.get('AI_API_KEY'),
+            api_base=os.environ.get('AI_BASE_URL')
+        )
         langfuse_context.update_current_trace(
             input=request.data.get('messages'),
             user_id=str(request.user.id),

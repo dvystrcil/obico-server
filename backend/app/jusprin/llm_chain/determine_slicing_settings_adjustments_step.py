@@ -530,7 +530,11 @@ def adjustments_system_prompt(print_process_preset_name, filament_params, print_
 
 
 def determine_slicing_settings_adjustments_step(chat, print_process_preset_name, preset_explanation, openai_client):
-    instructor_client = instructor.from_openai(openai_client)
+    if os.getenv('AI_INSTRUCTOR_MODE', '').lower() == "json":
+        instructor_client = instructor.from_openai(openai_client, mode=instructor.Mode.JSON)
+    else:
+        instructor_client = instructor.from_openai(openai_client)
+    
     slicing_params = chat.get('slicing_profiles', {})
 
     filament_preset = slicing_params.get('filament_presets', [])[0] # We assume that only the selected filament preset is in the request. This may change in the future.
@@ -567,7 +571,7 @@ def determine_slicing_settings_adjustments_step(chat, print_process_preset_name,
     messages.extend(chat_history)
 
     response = instructor_client.chat.completions.create(
-        model="gpt-4o",
+        model=os.getenv('JUSPRIN_LLM_MODEL', 'gpt-4o'),
         messages=messages,
         response_model=SlicingResponse
     )
@@ -632,7 +636,7 @@ def combine_explanations(chat, prev_preset_name, preset_name, preset_explanation
     messages.extend(chat_history)
 
     response = openai_client.chat.completions.create(
-        model="gpt-4o",
+        model=os.getenv('JUSPRIN_LLM_MODEL', 'gpt-4o'),
         messages=messages,
         temperature=0.0,
     )

@@ -54,7 +54,7 @@ def get_confirmation_message(chat, openai_client):
     messages.extend(chat_history)
 
     response = openai_client.chat.completions.create(
-        model="gpt-4o",
+        model=os.getenv('JUSPRIN_LLM_MODEL', 'gpt-4o'),
         messages=messages,
         temperature=0.0,
     )
@@ -125,7 +125,7 @@ def guide_print_issue_troubleshooting_step(chat, openai_client):
 
     instructor_client = instructor.from_openai(openai_client)
     response = instructor_client.chat.completions.create(
-        model="gpt-4o",
+        model=os.getenv('JUSPRIN_LLM_MODEL', 'gpt-4o'),
         response_model=PrintTroubleShootingResponse,
         messages=messages,
         temperature=0.0,
